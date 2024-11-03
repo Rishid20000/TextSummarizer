@@ -1,3 +1,7 @@
+# please make hugging face token(api key) (https://huggingface.co/settings/tokens) to run this app and install all dependency of python 
+#singup on hugging face and go to https://huggingface.co/settings/tokens this link after signup 
+#after generating token paste at line 20 in  place of your api key  (API_TOKEN = "your hugging face api keys" )
+
 from flask import Flask, render_template, request, jsonify
 import requests
 from typing import Dict, Any, Optional
@@ -13,7 +17,7 @@ logger = logging.getLogger(__name__)
 class SummarizerConfig:
     """Configuration class for the summarizer application."""
     API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
-    API_TOKEN = "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"
+    API_TOKEN = "your hugging face api keys" 
     MIN_LENGTH = 20
     MAX_LENGTH = 200
     CACHE_SIZE = 100
