@@ -1,3 +1,6 @@
+https://rishi2000goku.pythonanywhere.com/
+
+
 # TextSummarizer
 
 **web app using flask and distilbart that help user to Summarize there text
@@ -22,3 +25,120 @@ Loading Animation: Provides feedback while the API processes the request.
 Summary Result Display: Shows the summarized text with a copy-to-clipboard button for convenience.
 This setup offers a user-friendly experience by blending a clean UI with the power of API-driven summarization, handling errors and model loading states efficiently.
 *******
+
+
+
+# Project Name
+
+Briefly describe your app here, mentioning its main functionality and purpose.
+
+---
+
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Setting up the Environment](#setting-up-the-environment)
+- [Running the App](#running-the-app)
+- [Dependencies](#dependencies)
+- [Usage](#usage)
+- [Contributing](#contributing)
+
+---
+
+## Prerequisites
+
+Make sure the following are installed on your system before proceeding:
+
+- **Python** (version 3.7 or higher)
+- **Pip** (Python package installer)
+- **Git** (for cloning the repository)
+
+You can check the installations by running:
+
+bash
+python --version
+pip --version
+git --version
+
+git clone https://github.com/your-username/TextSummarizer.git
+cd TextSummarizer
+
+
+2. Set up a Virtual Environment (Recommended)
+Create a virtual environment to manage your dependencies locally:
+
+bash
+Copy code
+python -m venv venv
+Activate the virtual environment:
+
+Windows:
+bash
+Copy code
+venv\Scripts\activate
+macOS/Linux:
+bash
+Copy code
+source venv/bin/activate
+3. Install Dependencies
+All required packages are listed in requirements.txt. To install them, run:
+
+bash
+Copy code
+pip install -r requirements.txt
+Setting up the Environment
+If your app uses environment variables (such as API keys or database credentials), create a .env file in the root directory of your project and define the variables like so:
+
+plaintext
+Copy code
+SECRET_KEY=your_secret_key
+DATABASE_URL=your_database_url
+Ensure you have the python-dotenv package to load environment variables automatically.
+
+bash
+Copy code
+pip install python-dotenv
+Running the App
+To start the app, follow these steps:
+
+Activate the virtual environment (if it’s not already activated).
+
+Run the main application file. Replace main.py with the entry point of your app:
+
+bash
+Copy code
+python main.py
+Access the app:
+
+For web applications, open your browser and navigate to http://127.0.0.1:5000 (or the specified port).
+For command-line applications, follow any additional instructions specific to the CLI.
+Dependencies
+All dependencies are listed in requirements.txt. To update or add new dependencies, install the package using pip install and then run:
+
+bash
+Copy code
+pip freeze > requirements.txt
+This updates the requirements.txt file to include all packages currently installed in your environment.
+
+
+---
+
+Additional Tips
+
+1. README.md Placement**: This file should be placed in the root directory of your GitHub repository, as GitHub will automatically display it on the main page.
+2. Updating Requirements**: Whenever you add a new package, remember to update `requirements.txt` using `pip freeze > requirements.txt`.
+3. **.gitignore**: Add `.env`, `venv/`, and other sensitive or local files to your `.gitignore` to keep them out of version control.
+
+This setup will guide users through the installation and execution of your app and make it easy for others to contribute. Let me know if you want more specific content for any section!
+
+
+Contributing
+Fork the repository.
+Create a new branch for your feature (git checkout -b feature-name).
+Make your changes and commit (git commit -am 'Add new feature').
+Push to the branch (git push origin feature-name).
+Create a new Pull Request.
+
+
+
