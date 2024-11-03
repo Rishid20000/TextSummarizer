@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <title>Smart Text Summarizer</title>
+    
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --bg-color: #f8f9fa;
+            --text-color: #2b2d42;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 15px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            margin: 20px auto;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .tool-header h1 {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 10px;
+        }
+
+        .tool-description {
+            color: #666;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-item i {
+            color: var(--primary-color);
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            margin-bottom: 10px;
+        }
+
+        .feature-item h5 {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            margin-bottom: 5px;
+        }
+
+        .feature-item p {
+            font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+            margin: 0;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            transition: all 0.3s ease;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.25);
+            outline: none;
+        }
+
+        .char-counter {
+            color: #666;
+            font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        .slider-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #e9ecef;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit {
+            background: var(--primary-color);
+            color: white;
+            padding: clamp(10px, 2vw, 12px) clamp(20px, 4vw, 30px);
+            border: none;
+            border-radius: 8px;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-submit:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .result-container {
+            position: relative;
+        }
+
+        #copyBtn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 10px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #1a1a1a;
+        }
+
+        body.dark-mode .container {
+            background: #2d2d2d;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode textarea {
+            background: #3d3d3d;
+            color: #fff;
+            border-color: #4d4d4d;
+        }
+
+        body.dark-mode .feature-item {
+            background: #3d3d3d;
+            color: #fff;
+        }
+
+        /* Mobile-specific adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .dark-mode-toggle {
+                top: 10px;
+                right: 10px;
+            }
+
+            textarea {
+                min-height: 120px;
+            }
+
+            .tool-header {
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Small mobile adjustments */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+                margin: 5px;
+            }
+
+            .slider-container {
+                padding: 15px;
+            }
+
+            .feature-item {
+                padding: 10px;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .loading i {
+            color: var(--primary-color);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+        }
+    </style>
+</head>
+<body>
+    <!-- The rest of the HTML remains the same as in the previous version -->
+    <button class="btn dark-mode-toggle" onclick="toggleDarkMode()">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="container">
+        <div class="tool-header">
+            <h1><i class="fas fa-robot"></i> Smart Text Summarizer</h1>
+            <p class="tool-description">Transform long text into concise, meaningful summaries with AI</p>
+        </div>
+
+        <div class="features">
+            <div class="feature-item">
+                <i class="fas fa-bolt"></i>
+                <h5>Quick Summary</h5>
+                <p>Get instant results</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-magic"></i>
+                <h5>AI-Powered</h5>
+                <p>Smart processing</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-sliders-h"></i>
+                <h5>Customizable</h5>
+                <p>Adjust length</p>
+            </div>
+        </div>
+
+        <form action="{{ url_for('summer') }}" method="post" id="summaryForm">
+            <div class="form-group">
+                <textarea 
+                    name="data" 
+                    id="text" 
+                    rows="6" 
+                    placeholder="Paste your text here to summarize..." 
+                    required
+                ></textarea>
+                <div class="char-counter">
+                    Characters: <span id="charCount">0</span>
+                </div>
+            </div>
+
+            <div class="slider-container">
+                <div class="slider-label">
+                    <label for="slider">Summary Length:</label>
+                    <span id="sliderValue">100 words</span>
+                </div>
+                <input 
+                    type="range" 
+                    name="maxl" 
+                    id="slider" 
+                    min="20" 
+                    max="200" 
+                    value="100"
+                >
+            </div>
+
+            <button type="submit" class="btn btn-submit">
+                <i class="fas fa-magic"></i> Summarize Text
+            </button>
+        </form>
+
+        <div class="loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Generating summary...</p>
+        </div>
+
+        <div class="result-container mt-4">
+            <h3>Summary Result:</h3>
+            <button id="copyBtn" onclick="copySummary()" title="Copy to clipboard">
+                <i class="far fa-copy"></i>
+            </button>
+            <textarea id="summarized" rows="6" readonly>{{ result }}</textarea>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script>
+        // Update slider value display
+        document.getElementById("slider").addEventListener("input", function() {
+            document.getElementById("sliderValue").textContent = this.value + " words";
+        });
+
+        // Character counter
+        document.getElementById("text").addEventListener("input", function() {
+            document.getElementById("charCount").textContent = this.value.length;
+        });
+
+        // Show loading animation
+        document.getElementById("summaryForm").addEventListener("submit", function() {
+            document.querySelector(".loading").style.display = "block";
+            document.querySelector(".btn-submit").disabled = true;
+        });
+
+        // Copy summary to clipboard
+        function copySummary() {
+            const summaryText = document.getElementById("summarized");
+            summaryText.select();
+            document.execCommand("copy");
+            
+            const copyBtn = document.getElementById("copyBtn");
+            copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+            setTimeout(() => {
+                copyBtn.innerHTML = '<i class="far fa-copy"></i>';
+            }, 2000);
+        }
+
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+            const icon = document.querySelector(".dark-mode-toggle i");
+            if (document.body.classList.contains("dark-mode")) {
+                icon.classList.remove("fa-moon");
+                icon.classList.add("fa-sun");
+            } else {
+                icon.classList.remove("fa-sun");
+                icon.classList.add("fa-moon");
+            }
+        }
+    </script>
+</body>
+</html>
