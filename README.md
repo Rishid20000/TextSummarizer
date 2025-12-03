@@ -1,9 +1,8 @@
 https://rishi2000goku.pythonanywhere.com/
 
-
 # TextSummarizer
 
-**web app using flask and distilbart that help user to Summarize there text
+\*\*web app using flask and distilbart that help user to Summarize there text
 This code defines a web application for text summarization using Flask and a frontend with a user-friendly, modern design. It utilizes the Hugging Face BART model to perform AI-powered summarization. Here’s an overview of the functionality:
 
 Backend (Python with Flask)
@@ -24,9 +23,8 @@ Dark Mode Toggle: Allows users to switch to dark mode for a more comfortable vie
 Loading Animation: Provides feedback while the API processes the request.
 Summary Result Display: Shows the summarized text with a copy-to-clipboard button for convenience.
 This setup offers a user-friendly experience by blending a clean UI with the power of API-driven summarization, handling errors and model loading states efficiently.
-*******
 
-
+---
 
 # Project Name
 
@@ -64,9 +62,8 @@ git --version
 git clone https://github.com/your-username/TextSummarizer.git
 cd TextSummarizer
 
-
 2. Set up a Virtual Environment (Recommended)
-Create a virtual environment to manage your dependencies locally:
+   Create a virtual environment to manage your dependencies locally:
 
 bash
 Copy code
@@ -80,8 +77,7 @@ venv\Scripts\activate
 macOS/Linux:
 bash
 Copy code
-source venv/bin/activate
-3. Install Dependencies
+source venv/bin/activate 3. Install Dependencies
 All required packages are listed in requirements.txt. To install them, run:
 
 bash
@@ -121,24 +117,43 @@ Copy code
 pip freeze > requirements.txt
 This updates the requirements.txt file to include all packages currently installed in your environment.
 
-
 ---
 
 Additional Tips
 
-1. README.md Placement**: This file should be placed in the root directory of your GitHub repository, as GitHub will automatically display it on the main page.
-2. Updating Requirements**: Whenever you add a new package, remember to update `requirements.txt` using `pip freeze > requirements.txt`.
+1. README.md Placement\*\*: This file should be placed in the root directory of your GitHub repository, as GitHub will automatically display it on the main page.
+2. Updating Requirements\*\*: Whenever you add a new package, remember to update `requirements.txt` using `pip freeze > requirements.txt`.
 3. **.gitignore**: Add `.env`, `venv/`, and other sensitive or local files to your `.gitignore` to keep them out of version control.
 
 This setup will guide users through the installation and execution of your app and make it easy for others to contribute. Let me know if you want more specific content for any section!
 
+## Challenges Faced & Solutions
 
-Contributing
+During the development and debugging of this project, several challenges were encountered and resolved:
+
+1.  **API Deprecation**:
+
+    - **Issue**: The original Hugging Face API URL (`https://api-inference.huggingface.co/...`) was deprecated and returned 404/503 errors.
+    - **Solution**: Switched to the official `huggingface_hub` Python library, which automatically handles the correct API endpoints and connection details.
+
+2.  **JSON Parsing Errors**:
+
+    - **Issue**: The application crashed with `Expecting value: line 1 column 1` because the deprecated API URL was returning HTML error pages instead of JSON.
+    - **Solution**: Debugged by inspecting the raw response text. The switch to `huggingface_hub` resolved the underlying cause.
+
+3.  **Security Vulnerabilities**:
+
+    - **Issue**: The Hugging Face API token was hardcoded in `app.py`, causing GitHub push protection to block the commit.
+    - **Solution**: Moved the API token to a `.env` file (added to `.gitignore`) and updated the application to load it using `python-dotenv`.
+
+4.  **Code Complexity**:
+    - **Issue**: The initial `app.py` had complex class structures, retry logic (`tenacity`), and caching (`lru_cache`) that made debugging difficult.
+    - **Solution**: Refactored the application into a simple, functional Flask app, removing unnecessary dependencies (`tenacity`, `numpy`, `pandas`) to improve maintainability.
+
+## Contributing
+
 Fork the repository.
 Create a new branch for your feature (git checkout -b feature-name).
 Make your changes and commit (git commit -am 'Add new feature').
 Push to the branch (git push origin feature-name).
 Create a new Pull Request.
-
-
-
